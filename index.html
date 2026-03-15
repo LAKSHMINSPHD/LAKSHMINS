@@ -523,4 +523,12 @@
   &copy; 2025 Dr. Lakshmi N S &nbsp;·&nbsp; Department of ECE, IIIT Kottayam &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection#8ce0ede7ffe4e1e5e2ffcce5e5e5f8e7e3f8f8edf5ede1a2edefa2e5e2" style="color:#6a7fa0;"><span class="__cf_email__" data-cfemail="c7aba6acb4afaaaea9b487aeaeaeb3aca8b3b3a6bea6aae9a6a4e9aea9">[email&#160;protected]</span></a>
 </footer>
 
-<script data-cfasync="false" src="
+<script>
+  function show(id, el) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    el.classList.add('active');
+    return false;
+  }
+</script>
