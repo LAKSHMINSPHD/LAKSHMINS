@@ -385,226 +385,262 @@
   <!-- VLSI DESIGN FLOW CHART -->
   <div class="res-section">
     <div class="res-section-label">VLSI Design Flow — Overview</div>
-    <div style="overflow-x:auto; margin-bottom: 1rem;">
-    <svg viewBox="0 0 960 1000" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:960px;display:block;margin:0 auto;font-family:'Source Sans 3',sans-serif;">
-      <defs>
-        <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-          <path d="M0,0 L0,6 L8,3 z" fill="#1a2744"/>
-        </marker>
-        <marker id="arr-g" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-          <path d="M0,0 L0,6 L8,3 z" fill="#2a6a1a"/>
-        </marker>
-        <marker id="arr-b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-          <path d="M0,0 L0,6 L8,3 z" fill="#1a4a8a"/>
-        </marker>
-        <marker id="arr-p" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-          <path d="M0,0 L0,6 L8,3 z" fill="#6a1a8a"/>
-        </marker>
-      </defs>
 
-      <!-- TOP ROOT BOX -->
-      <rect x="330" y="10" width="300" height="42" rx="6" fill="#1a2744"/>
-      <text x="480" y="36" text-anchor="middle" fill="white" font-size="14" font-weight="bold">VLSI Design Flow</text>
+    <style>
+      .fc-root {
+        background: #1a2744; color: #fff; text-align: center;
+        font-family: var(--serif); font-size: 1.05rem; font-weight: 600;
+        padding: 0.7rem 1.5rem; border-radius: 6px;
+        display: inline-block; margin: 0 auto 0.5rem;
+      }
+      .fc-branch-bar {
+        display: flex; justify-content: center; gap: 0;
+        position: relative; margin-bottom: 0;
+      }
+      .fc-branch-bar::before {
+        content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+        width: 2px; height: 18px; background: #1a2744;
+      }
+      .fc-columns {
+        display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem;
+        margin-top: 0;
+      }
+      .fc-col { display: flex; flex-direction: column; align-items: center; }
+      .fc-col-header {
+        width: 100%; text-align: center; color: #fff;
+        font-weight: 700; font-size: 0.92rem; letter-spacing: 0.04em;
+        padding: 0.55rem 0.5rem; border-radius: 5px; margin-bottom: 0.3rem;
+      }
+      .fc-sublabel {
+        font-size: 0.75rem; font-style: italic; margin-bottom: 0.6rem;
+        text-align: center;
+      }
+      .fc-step {
+        width: 100%; background: #fff; border-radius: 5px;
+        border-width: 1.5px; border-style: solid;
+        padding: 0.45rem 0.6rem; text-align: center;
+        position: relative;
+      }
+      .fc-step .step-name {
+        font-size: 0.85rem; font-weight: 600; color: #1a1a1a; line-height: 1.3;
+      }
+      .fc-step .step-tools {
+        font-size: 0.72rem; color: #555; margin-top: 2px; line-height: 1.4;
+      }
+      .fc-arrow {
+        width: 2px; height: 18px; margin: 0 auto;
+        position: relative; flex-shrink: 0;
+      }
+      .fc-arrow::after {
+        content: ''; position: absolute; bottom: -1px; left: 50%;
+        transform: translateX(-50%);
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top-width: 7px; border-top-style: solid;
+      }
+      .fc-end {
+        width: 100%; text-align: center; color: #fff;
+        font-weight: 700; font-size: 0.88rem;
+        padding: 0.55rem 0.5rem; border-radius: 5px; margin-top: 0;
+      }
+      /* colours per column */
+      .col-fc .fc-col-header, .col-fc .fc-end { background: #8b1a1a; }
+      .col-fc .fc-step { border-color: #8b1a1a; }
+      .col-fc .fc-arrow { background: #8b1a1a; }
+      .col-fc .fc-arrow::after { border-top-color: #8b1a1a; }
+      .col-fc .fc-sublabel { color: #8b1a1a; }
 
-      <!-- BRANCH LINES FROM ROOT -->
-      <line x1="480" y1="52" x2="480" y2="72" stroke="#1a2744" stroke-width="2"/>
-      <line x1="160" y1="72" x2="800" y2="72" stroke="#1a2744" stroke-width="2"/>
-      <!-- Down to 3 branches -->
-      <line x1="160" y1="72" x2="160" y2="92" stroke="#1a2744" stroke-width="2" marker-end="url(#arr)"/>
-      <line x1="480" y1="72" x2="480" y2="92" stroke="#1a2744" stroke-width="2" marker-end="url(#arr)"/>
-      <line x1="800" y1="72" x2="800" y2="92" stroke="#1a2744" stroke-width="2" marker-end="url(#arr)"/>
+      .col-sc .fc-col-header, .col-sc .fc-end { background: #1a4a8a; }
+      .col-sc .fc-step { border-color: #1a4a8a; }
+      .col-sc .fc-arrow { background: #1a4a8a; }
+      .col-sc .fc-arrow::after { border-top-color: #1a4a8a; }
+      .col-sc .fc-sublabel { color: #1a4a8a; }
 
-      <!-- FULL CUSTOM HEADER -->
-      <rect x="30" y="92" width="260" height="38" rx="5" fill="#8b1a1a"/>
-      <text x="160" y="116" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Full Custom ASIC</text>
+      .col-fp .fc-col-header, .col-fp .fc-end { background: #2a6a1a; }
+      .col-fp .fc-step { border-color: #2a6a1a; }
+      .col-fp .fc-arrow { background: #2a6a1a; }
+      .col-fp .fc-arrow::after { border-top-color: #2a6a1a; }
+      .col-fp .fc-sublabel { color: #2a6a1a; }
 
-      <!-- SEMI CUSTOM HEADER -->
-      <rect x="355" y="92" width="250" height="38" rx="5" fill="#1a4a8a"/>
-      <text x="480" y="116" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Semi-Custom ASIC</text>
+      /* LEGEND */
+      .fc-legend {
+        margin-top: 1.5rem; border: 1.5px solid #d8d0bc;
+        border-radius: 6px; background: #f5f0e8; padding: 1.2rem 1.5rem;
+      }
+      .fc-legend h4 {
+        font-family: var(--serif); font-size: 1rem; color: #1a2744;
+        text-align: center; margin-bottom: 0.9rem; font-weight: 600;
+        letter-spacing: 0.03em;
+      }
+      .fc-legend-section { margin-bottom: 0.8rem; }
+      .fc-legend-section:last-child { margin-bottom: 0; }
+      .fc-legend-row {
+        display: flex; align-items: baseline; gap: 0.6rem;
+        font-size: 0.84rem; line-height: 1.7; flex-wrap: wrap;
+      }
+      .fc-legend-dot {
+        width: 12px; height: 12px; border-radius: 3px;
+        flex-shrink: 0; margin-top: 3px;
+      }
+      .fc-legend-row b { color: #1a1a1a; white-space: nowrap; }
+      .fc-legend-row span { color: #444; }
+      .fc-legend-divider {
+        border: none; border-top: 1px dashed #c8c0ac; margin: 0.9rem 0;
+      }
+      .fc-legend-heading {
+        font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+        text-transform: uppercase; color: #1a2744; margin-bottom: 0.6rem;
+      }
+      @media (max-width: 640px) {
+        .fc-columns { grid-template-columns: 1fr; }
+      }
+    </style>
 
-      <!-- FPGA HEADER -->
-      <rect x="672" y="92" width="256" height="38" rx="5" fill="#2a6a1a"/>
-      <text x="800" y="116" text-anchor="middle" fill="white" font-size="13" font-weight="bold">FPGA Design</text>
-
-      <!-- ═══ FULL CUSTOM FLOW (left column) ═══ -->
-      <!-- Sub-label -->
-      <text x="160" y="152" text-anchor="middle" fill="#8b1a1a" font-size="10" font-style="italic">Schematic → GDS Flow</text>
-
-      <!-- Steps: FC -->
-      <!-- 1 -->
-      <rect x="55" y="160" width="210" height="34" rx="4" fill="#fff" stroke="#8b1a1a" stroke-width="1.5"/>
-      <text x="160" y="181" text-anchor="middle" fill="#1e1e1e" font-size="11.5">System Specification</text>
-      <!-- 2 -->
-      <rect x="55" y="218" width="210" height="34" rx="4" fill="#fff" stroke="#8b1a1a" stroke-width="1.5"/>
-      <text x="160" y="233" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Circuit Design</text>
-      <text x="160" y="247" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Cadence Virtuoso / Xschem)</text>
-      <!-- 3 -->
-      <rect x="55" y="276" width="210" height="34" rx="4" fill="#fff" stroke="#8b1a1a" stroke-width="1.5"/>
-      <text x="160" y="291" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Schematic Entry</text>
-      <text x="160" y="305" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Virtuoso Schematic Editor)</text>
-      <!-- 4 -->
-      <rect x="55" y="334" width="210" height="34" rx="4" fill="#fff" stroke="#8b1a1a" stroke-width="1.5"/>
-      <text x="160" y="349" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Circuit Simulation</text>
-      <text x="160" y="363" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Spectre / HSPICE / ngspice)</text>
-      <!-- 5 -->
-      <rect x="55" y="392" width="210" height="34" rx="4" fill="#fff" stroke="#8b1a1a" stroke-width="1.5"/>
-      <text x="160" y="407" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Layout Design</text>
-      <text x="160" y="421" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Virtuoso Layout / Magic)</text>
-      <!-- 6 -->
-      <rect x="55" y="450" width="210" height="34" rx="4" fill="#fff" stroke="#8b1a1a" stroke-width="1.5"/>
-      <text x="160" y="465" text-anchor="middle" fill="#1e1e1e" font-size="11.5">DRC / LVS Verification</text>
-      <text x="160" y="479" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Calibre / Assura / Netgen)</text>
-      <!-- 7 -->
-      <rect x="55" y="508" width="210" height="34" rx="4" fill="#fff" stroke="#8b1a1a" stroke-width="1.5"/>
-      <text x="160" y="523" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Parasitic Extraction (PEX)</text>
-      <text x="160" y="537" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Calibre xRC / Quantus)</text>
-      <!-- 8 -->
-      <rect x="55" y="566" width="210" height="34" rx="4" fill="#fff" stroke="#8b1a1a" stroke-width="1.5"/>
-      <text x="160" y="581" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Post-Layout Simulation</text>
-      <text x="160" y="595" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Spectre / ngspice)</text>
-      <!-- 9 GDS -->
-      <rect x="55" y="624" width="210" height="34" rx="4" fill="#8b1a1a"/>
-      <text x="160" y="645" text-anchor="middle" fill="white" font-size="12" font-weight="bold">GDS II Tape-out</text>
-
-      <!-- Arrows FC -->
-      <line x1="160" y1="130" x2="160" y2="158" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#arr)"/>
-      <line x1="160" y1="194" x2="160" y2="216" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#arr)"/>
-      <line x1="160" y1="252" x2="160" y2="274" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#arr)"/>
-      <line x1="160" y1="310" x2="160" y2="332" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#arr)"/>
-      <line x1="160" y1="368" x2="160" y2="390" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#arr)"/>
-      <line x1="160" y1="426" x2="160" y2="448" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#arr)"/>
-      <line x1="160" y1="484" x2="160" y2="506" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#arr)"/>
-      <line x1="160" y1="542" x2="160" y2="564" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#arr)"/>
-      <line x1="160" y1="600" x2="160" y2="622" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#arr)"/>
-
-      <!-- ═══ SEMI-CUSTOM ASIC FLOW (middle column) ═══ -->
-      <text x="480" y="152" text-anchor="middle" fill="#1a4a8a" font-size="10" font-style="italic">RTL → GDS Flow</text>
-
-      <rect x="360" y="160" width="240" height="34" rx="4" fill="#fff" stroke="#1a4a8a" stroke-width="1.5"/>
-      <text x="480" y="181" text-anchor="middle" fill="#1e1e1e" font-size="11.5">RTL Design (HDL Coding)</text>
-
-      <rect x="360" y="218" width="240" height="34" rx="4" fill="#fff" stroke="#1a4a8a" stroke-width="1.5"/>
-      <text x="480" y="233" text-anchor="middle" fill="#1e1e1e" font-size="11.5">RTL Simulation / Verification</text>
-      <text x="480" y="247" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(ModelSim / Xcelium / Icarus)</text>
-
-      <rect x="360" y="276" width="240" height="34" rx="4" fill="#fff" stroke="#1a4a8a" stroke-width="1.5"/>
-      <text x="480" y="291" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Logic Synthesis</text>
-      <text x="480" y="305" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Cadence Genus / Yosys)</text>
-
-      <rect x="360" y="334" width="240" height="34" rx="4" fill="#fff" stroke="#1a4a8a" stroke-width="1.5"/>
-      <text x="480" y="349" text-anchor="middle" fill="#1e1e1e" font-size="11.5">DFT / Scan Insertion</text>
-      <text x="480" y="363" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Cadence Modus / Synopsys DFT)</text>
-
-      <rect x="360" y="392" width="240" height="34" rx="4" fill="#fff" stroke="#1a4a8a" stroke-width="1.5"/>
-      <text x="480" y="407" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Floorplanning &amp; Placement</text>
-      <text x="480" y="421" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Cadence Innovus / OpenROAD)</text>
-
-      <rect x="360" y="450" width="240" height="34" rx="4" fill="#fff" stroke="#1a4a8a" stroke-width="1.5"/>
-      <text x="480" y="465" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Clock Tree Synthesis (CTS)</text>
-      <text x="480" y="479" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Innovus / Triton CTS)</text>
-
-      <rect x="360" y="508" width="240" height="34" rx="4" fill="#fff" stroke="#1a4a8a" stroke-width="1.5"/>
-      <text x="480" y="523" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Routing</text>
-      <text x="480" y="537" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Innovus / TritonRoute)</text>
-
-      <rect x="360" y="566" width="240" height="34" rx="4" fill="#fff" stroke="#1a4a8a" stroke-width="1.5"/>
-      <text x="480" y="581" text-anchor="middle" fill="#1e1e1e" font-size="11.5">STA / Signoff (DRC / LVS)</text>
-      <text x="480" y="595" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Synopsys PrimeTime / Cadence Tempus / OpenSTA)</text>
-
-      <rect x="360" y="624" width="240" height="34" rx="4" fill="#1a4a8a"/>
-      <text x="480" y="645" text-anchor="middle" fill="white" font-size="12" font-weight="bold">GDS II Tape-out</text>
-
-      <!-- Arrows SC -->
-      <line x1="480" y1="130" x2="480" y2="158" stroke="#1a4a8a" stroke-width="1.5" marker-end="url(#arr-b)"/>
-      <line x1="480" y1="194" x2="480" y2="216" stroke="#1a4a8a" stroke-width="1.5" marker-end="url(#arr-b)"/>
-      <line x1="480" y1="252" x2="480" y2="274" stroke="#1a4a8a" stroke-width="1.5" marker-end="url(#arr-b)"/>
-      <line x1="480" y1="310" x2="480" y2="332" stroke="#1a4a8a" stroke-width="1.5" marker-end="url(#arr-b)"/>
-      <line x1="480" y1="368" x2="480" y2="390" stroke="#1a4a8a" stroke-width="1.5" marker-end="url(#arr-b)"/>
-      <line x1="480" y1="426" x2="480" y2="448" stroke="#1a4a8a" stroke-width="1.5" marker-end="url(#arr-b)"/>
-      <line x1="480" y1="484" x2="480" y2="506" stroke="#1a4a8a" stroke-width="1.5" marker-end="url(#arr-b)"/>
-      <line x1="480" y1="542" x2="480" y2="564" stroke="#1a4a8a" stroke-width="1.5" marker-end="url(#arr-b)"/>
-      <line x1="480" y1="600" x2="480" y2="622" stroke="#1a4a8a" stroke-width="1.5" marker-end="url(#arr-b)"/>
-
-      <!-- ═══ FPGA FLOW (right column) ═══ -->
-      <text x="800" y="152" text-anchor="middle" fill="#2a6a1a" font-size="10" font-style="italic">HDL → Bitstream Flow</text>
-
-      <rect x="675" y="160" width="250" height="34" rx="4" fill="#fff" stroke="#2a6a1a" stroke-width="1.5"/>
-      <text x="800" y="181" text-anchor="middle" fill="#1e1e1e" font-size="11.5">RTL Design (HDL Coding)</text>
-
-      <rect x="675" y="218" width="250" height="34" rx="4" fill="#fff" stroke="#2a6a1a" stroke-width="1.5"/>
-      <text x="800" y="233" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Simulation &amp; Verification</text>
-      <text x="800" y="247" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(ModelSim / Icarus Verilog)</text>
-
-      <rect x="675" y="276" width="250" height="34" rx="4" fill="#fff" stroke="#2a6a1a" stroke-width="1.5"/>
-      <text x="800" y="291" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Synthesis (FPGA-mapped)</text>
-      <text x="800" y="305" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Xilinx Vivado / Yosys)</text>
-
-      <rect x="675" y="334" width="250" height="34" rx="4" fill="#fff" stroke="#2a6a1a" stroke-width="1.5"/>
-      <text x="800" y="349" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Implementation</text>
-      <text x="800" y="363" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Place &amp; Route — Vivado / nextpnr)</text>
-
-      <rect x="675" y="392" width="250" height="34" rx="4" fill="#fff" stroke="#2a6a1a" stroke-width="1.5"/>
-      <text x="800" y="407" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Timing Analysis</text>
-      <text x="800" y="421" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Vivado / Quartus)</text>
-
-      <rect x="675" y="450" width="250" height="34" rx="4" fill="#fff" stroke="#2a6a1a" stroke-width="1.5"/>
-      <text x="800" y="465" text-anchor="middle" fill="#1e1e1e" font-size="11.5">Bitstream Generation</text>
-      <text x="800" y="479" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(Vivado / Quartus)</text>
-
-      <rect x="675" y="508" width="250" height="34" rx="4" fill="#fff" stroke="#2a6a1a" stroke-width="1.5"/>
-      <text x="800" y="523" text-anchor="middle" fill="#1e1e1e" font-size="11.5">FPGA Programming</text>
-      <text x="800" y="537" text-anchor="middle" fill="#5a5a5a" font-size="9.5">(JTAG / Vivado Hardware Manager)</text>
-
-      <rect x="675" y="566" width="250" height="34" rx="4" fill="#2a6a1a"/>
-      <text x="800" y="591" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Prototype / Deployment</text>
-
-      <!-- Arrows FPGA -->
-      <line x1="800" y1="130" x2="800" y2="158" stroke="#2a6a1a" stroke-width="1.5" marker-end="url(#arr-g)"/>
-      <line x1="800" y1="194" x2="800" y2="216" stroke="#2a6a1a" stroke-width="1.5" marker-end="url(#arr-g)"/>
-      <line x1="800" y1="252" x2="800" y2="274" stroke="#2a6a1a" stroke-width="1.5" marker-end="url(#arr-g)"/>
-      <line x1="800" y1="310" x2="800" y2="332" stroke="#2a6a1a" stroke-width="1.5" marker-end="url(#arr-g)"/>
-      <line x1="800" y1="368" x2="800" y2="390" stroke="#2a6a1a" stroke-width="1.5" marker-end="url(#arr-g)"/>
-      <line x1="800" y1="426" x2="800" y2="448" stroke="#2a6a1a" stroke-width="1.5" marker-end="url(#arr-g)"/>
-      <line x1="800" y1="484" x2="800" y2="506" stroke="#2a6a1a" stroke-width="1.5" marker-end="url(#arr-g)"/>
-      <line x1="800" y1="542" x2="800" y2="564" stroke="#2a6a1a" stroke-width="1.5" marker-end="url(#arr-g)"/>
-
-      <!-- LEGEND -->
-      <rect x="30" y="680" width="900" height="310" rx="6" fill="#f5f0e8" stroke="#d8d0bc" stroke-width="1"/>
-
-      <!-- Industry standard heading -->
-      <text x="480" y="700" text-anchor="middle" fill="#1a2744" font-size="12" font-weight="bold">Industry-Standard EDA Tools</text>
-      <rect x="50" y="712" width="10" height="10" rx="2" fill="#8b1a1a"/>
-      <text x="68" y="722" fill="#1e1e1e" font-size="10.5" font-weight="bold">Full custom:</text>
-      <text x="68" y="736" fill="#5a5a5a" font-size="10">Cadence Virtuoso · Spectre · HSPICE · Siemens Calibre · Quantus PEX · Assura</text>
-
-      <rect x="50" y="748" width="10" height="10" rx="2" fill="#1a4a8a"/>
-      <text x="68" y="758" fill="#1e1e1e" font-size="10.5" font-weight="bold">Semi-custom ASIC:</text>
-      <text x="68" y="772" fill="#5a5a5a" font-size="10">Cadence Genus · Cadence Innovus · Synopsys DC · Synopsys PrimeTime · Cadence Tempus · Cadence Modus</text>
-
-      <rect x="50" y="784" width="10" height="10" rx="2" fill="#2a6a1a"/>
-      <text x="68" y="794" fill="#1e1e1e" font-size="10.5" font-weight="bold">FPGA:</text>
-      <text x="68" y="808" fill="#5a5a5a" font-size="10">Xilinx Vivado · Intel Quartus Prime · Mentor ModelSim · Synopsys Synplify</text>
-
-      <!-- Divider -->
-      <line x1="50" y1="822" x2="880" y2="822" stroke="#d8d0bc" stroke-width="1" stroke-dasharray="4 4"/>
-
-      <!-- Open-source heading -->
-      <text x="480" y="840" text-anchor="middle" fill="#1a2744" font-size="12" font-weight="bold">Open-Source Tools</text>
-
-      <rect x="50" y="852" width="10" height="10" rx="2" fill="#8b1a1a"/>
-      <text x="68" y="862" fill="#1e1e1e" font-size="10.5" font-weight="bold">Full custom flow:</text>
-      <text x="68" y="876" fill="#5a5a5a" font-size="10">Xschem (schematic) · ngspice (simulation) · Magic (layout) · Netgen (LVS) · KLayout (GDS viewer)</text>
-
-      <rect x="50" y="888" width="10" height="10" rx="2" fill="#1a4a8a"/>
-      <text x="68" y="898" fill="#1e1e1e" font-size="10.5" font-weight="bold">Semi-custom ASIC — OpenLane flow:</text>
-      <text x="68" y="912" fill="#5a5a5a" font-size="10">Icarus Verilog (sim) · Yosys (synthesis) · OpenROAD (P&amp;R) · Magic (DRC/layout) · KLayout (GDS viewer) · OpenSTA (timing) · OpenLane (automated RTL→GDS)</text>
-
-      <rect x="50" y="924" width="10" height="10" rx="2" fill="#1a4a8a"/>
-      <text x="68" y="934" fill="#1e1e1e" font-size="10.5" font-weight="bold">DFT (open-source):</text>
-      <text x="68" y="948" fill="#5a5a5a" font-size="10">Fault — scan insertion &amp; ATPG · fault.readthedocs.io</text>
-    </svg>
+    <!-- Root node -->
+    <div style="text-align:center; margin-bottom:0;">
+      <div class="fc-root">VLSI Design Flow</div>
     </div>
-    <p style="font-size:0.8rem;color:var(--muted);text-align:center;margin-top:0.3rem;font-style:italic;">Tools shown in italics under each step. Industry-standard (commercial) tools listed in the legend. Open-source tools are detailed in the sections below.</p>
+
+    <!-- Connector line from root down -->
+    <div style="display:flex;justify-content:center;">
+      <div style="width:2px;height:20px;background:#1a2744;"></div>
+    </div>
+    <!-- Horizontal bar -->
+    <div style="position:relative;height:2px;background:#1a2744;margin:0 8%;"></div>
+    <!-- Three drop lines -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;margin:0 8% 0.6rem;">
+      <div style="display:flex;justify-content:center;"><div style="width:2px;height:16px;background:#8b1a1a;"></div></div>
+      <div style="display:flex;justify-content:center;"><div style="width:2px;height:16px;background:#1a4a8a;"></div></div>
+      <div style="display:flex;justify-content:center;"><div style="width:2px;height:16px;background:#2a6a1a;"></div></div>
+    </div>
+
+    <div class="fc-columns">
+
+      <!-- FULL CUSTOM -->
+      <div class="fc-col col-fc">
+        <div class="fc-col-header">Full Custom ASIC</div>
+        <div class="fc-sublabel">Schematic → GDS Flow</div>
+
+        <div class="fc-step"><div class="step-name">System Specification</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Circuit Design</div><div class="step-tools">Cadence Virtuoso / Xschem</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Schematic Entry</div><div class="step-tools">Virtuoso Schematic Editor</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Circuit Simulation</div><div class="step-tools">Spectre / HSPICE / ngspice</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Layout Design</div><div class="step-tools">Virtuoso Layout / Magic</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">DRC / LVS Verification</div><div class="step-tools">Calibre / Assura / Netgen</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Parasitic Extraction (PEX)</div><div class="step-tools">Calibre xRC / Quantus</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Post-Layout Simulation</div><div class="step-tools">Spectre / ngspice</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-end">GDS II Tape-out</div>
+      </div>
+
+      <!-- SEMI CUSTOM -->
+      <div class="fc-col col-sc">
+        <div class="fc-col-header">Semi-Custom ASIC</div>
+        <div class="fc-sublabel">RTL → GDS Flow</div>
+
+        <div class="fc-step"><div class="step-name">RTL Design (HDL Coding)</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">RTL Simulation / Verification</div><div class="step-tools">ModelSim / Xcelium / Icarus</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Logic Synthesis</div><div class="step-tools">Cadence Genus / Yosys</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">DFT / Scan Insertion</div><div class="step-tools">Cadence Modus / Synopsys DFT / Fault</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Floorplanning &amp; Placement</div><div class="step-tools">Cadence Innovus / OpenROAD</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Clock Tree Synthesis (CTS)</div><div class="step-tools">Innovus / TritonCTS</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Routing</div><div class="step-tools">Innovus / TritonRoute</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">STA / Signoff (DRC / LVS)</div><div class="step-tools">Synopsys PrimeTime / Cadence Tempus / OpenSTA</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-end">GDS II Tape-out</div>
+      </div>
+
+      <!-- FPGA -->
+      <div class="fc-col col-fp">
+        <div class="fc-col-header">FPGA Design</div>
+        <div class="fc-sublabel">HDL → Bitstream Flow</div>
+
+        <div class="fc-step"><div class="step-name">RTL Design (HDL Coding)</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Simulation &amp; Verification</div><div class="step-tools">ModelSim / Icarus Verilog</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Synthesis (FPGA-mapped)</div><div class="step-tools">Xilinx Vivado / Yosys</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Implementation</div><div class="step-tools">Place &amp; Route — Vivado / nextpnr</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Timing Analysis</div><div class="step-tools">Vivado / Quartus</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">Bitstream Generation</div><div class="step-tools">Vivado / Quartus</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-step"><div class="step-name">FPGA Programming</div><div class="step-tools">JTAG / Vivado Hardware Manager</div></div>
+        <div class="fc-arrow"></div>
+        <div class="fc-end">Prototype / Deployment</div>
+      </div>
+
+    </div><!-- end fc-columns -->
+
+    <!-- LEGEND -->
+    <div class="fc-legend">
+      <div class="fc-legend-heading" style="text-align:center;">Industry-Standard EDA Tools</div>
+
+      <div class="fc-legend-section">
+        <div class="fc-legend-row">
+          <div class="fc-legend-dot" style="background:#8b1a1a;"></div>
+          <b>Full Custom:</b>
+          <span>Cadence Virtuoso &nbsp;·&nbsp; Spectre &nbsp;·&nbsp; HSPICE &nbsp;·&nbsp; Siemens Calibre &nbsp;·&nbsp; Quantus PEX &nbsp;·&nbsp; Assura</span>
+        </div>
+      </div>
+      <div class="fc-legend-section">
+        <div class="fc-legend-row">
+          <div class="fc-legend-dot" style="background:#1a4a8a;"></div>
+          <b>Semi-Custom ASIC:</b>
+          <span>Cadence Genus &nbsp;·&nbsp; Cadence Innovus &nbsp;·&nbsp; Synopsys DC &nbsp;·&nbsp; Synopsys PrimeTime &nbsp;·&nbsp; Cadence Tempus &nbsp;·&nbsp; Cadence Modus</span>
+        </div>
+      </div>
+      <div class="fc-legend-section">
+        <div class="fc-legend-row">
+          <div class="fc-legend-dot" style="background:#2a6a1a;"></div>
+          <b>FPGA:</b>
+          <span>Xilinx Vivado &nbsp;·&nbsp; Intel Quartus Prime &nbsp;·&nbsp; Mentor ModelSim &nbsp;·&nbsp; Synopsys Synplify</span>
+        </div>
+      </div>
+
+      <hr class="fc-legend-divider"/>
+      <div class="fc-legend-heading" style="text-align:center;">Open-Source Tools</div>
+
+      <div class="fc-legend-section">
+        <div class="fc-legend-row">
+          <div class="fc-legend-dot" style="background:#8b1a1a;"></div>
+          <b>Full Custom Flow:</b>
+          <span>Xschem (schematic) &nbsp;·&nbsp; ngspice (simulation) &nbsp;·&nbsp; Magic (layout) &nbsp;·&nbsp; Netgen (LVS) &nbsp;·&nbsp; KLayout (GDS viewer)</span>
+        </div>
+      </div>
+      <div class="fc-legend-section">
+        <div class="fc-legend-row">
+          <div class="fc-legend-dot" style="background:#1a4a8a;"></div>
+          <b>Semi-Custom ASIC — OpenLane Flow:</b>
+          <span>Icarus Verilog (sim) &nbsp;·&nbsp; Yosys (synthesis) &nbsp;·&nbsp; OpenROAD (P&amp;R) &nbsp;·&nbsp; Magic (DRC/layout) &nbsp;·&nbsp; KLayout (GDS viewer) &nbsp;·&nbsp; OpenSTA (timing) &nbsp;·&nbsp; OpenLane (RTL→GDS)</span>
+        </div>
+      </div>
+      <div class="fc-legend-section">
+        <div class="fc-legend-row">
+          <div class="fc-legend-dot" style="background:#1a4a8a;"></div>
+          <b>DFT (Open-Source):</b>
+          <span>Fault — scan insertion &amp; ATPG &nbsp;·&nbsp; fault.readthedocs.io</span>
+        </div>
+      </div>
+    </div><!-- end legend -->
+
+    <p style="font-size:0.8rem;color:var(--muted);text-align:center;margin-top:0.6rem;font-style:italic;">Tools shown under each step. Commercial tools in the legend above. Open-source tools detailed in the sections below.</p>
   </div>
 
   <div class="res-section">
